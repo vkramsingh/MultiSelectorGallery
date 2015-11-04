@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowNoTitle">true</item>
+
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="RefineDetailStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/text_border_bottom_light</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:drawablePadding">25dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/search_page_res_buy_cardtitle_textcolor</item>
+    </style>
+
+</resources>

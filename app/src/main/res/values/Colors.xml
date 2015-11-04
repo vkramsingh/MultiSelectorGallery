@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="photoSelected">#333399</color>-->
+    <!--<color name="normalToolbarColor">@android:color/holo_green_dark</color>-->
+    <color name="hint_color">#757575</color>
+    <color name="search_page_res_buy_cardtitle_textcolor">#666666</color>
+    <color name="white">#FFFFFF</color>
+    <color name="refine_divider">#cccccc</color>
+    <color name="searchform_title_textcolor">#5e5e5e</color>
+
+
+
+
+</resources>
