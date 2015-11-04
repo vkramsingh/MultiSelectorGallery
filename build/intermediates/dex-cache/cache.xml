@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-8f8bcc4bd12549c71ae85457e9b5a05d92da94b0.jar" />
+    </item>
+    <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.mcxiaoke.volley/library-aar/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e40b9a81989bd4a846018551c280f8c4d837bf2e">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-a3f2bfa0129918f404aa020ae1f59629e108337d.jar" />
+    </item>
+    <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.soundcloud.android/android-crop/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="11a65cf2b30c192b38a881d626fa771a78a2293d">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-d66d50aeb3e0bea3d597e2257a8df1f578b6557d.jar" />
+    </item>
+    <item
+        jar="/home/vkramsingh/Setup/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-836d946f302c3ae7828e56eab46b0ae8d32d9065.jar" />
+    </item>
+    <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-3878b98a2a954d8ccfd0cc792113625d15c9b695.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.5.2/ecf534dba3a8446ce84cbb797d314763be212a68/glide-3.5.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ecf534dba3a8446ce84cbb797d314763be212a68">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/glide-3.5.2-a00a8bcf71ca8975472aff024e7f719bdf211608.jar" />
+    </item>
+    <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-8b86a464b50464257d858a40e5734de5522c3035.jar" />
+    </item>
+
+</items>

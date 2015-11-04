@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_dialog_title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:paddingBottom="10dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="10dp" >
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        
+        android:paddingLeft="10dp"
+        android:gravity="center"
+        android:text="Dummy"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/selector_bgred_stroke_black"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="Close"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout><!-- From: file:/home/vkramsingh/nnAcres/MultipleImageSelector/app/src/main/res/layout/custom_dialog_title_bar.xml -->

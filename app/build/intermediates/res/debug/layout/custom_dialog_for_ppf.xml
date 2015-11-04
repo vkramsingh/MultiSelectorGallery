@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4F4" >
+
+    <include
+        android:id="@+id/titleBar"
+        layout="@layout/custom_dialog_title_bar" />
+
+    <ListView
+        android:id="@+id/dropDownListInfoType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleBar"
+        android:layout_gravity="center">
+    </ListView>
+
+</RelativeLayout><!-- From: file:/home/vkramsingh/nnAcres/MultipleImageSelector/app/src/main/res/layout/custom_dialog_for_ppf.xml -->
