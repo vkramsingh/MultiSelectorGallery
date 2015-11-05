@@ -18,22 +18,23 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vikram.root.multipleimageselector.Adapters.ImageCursorAdapter;
+import com.vikram.root.multipleimageselector.Constants.Constants;
 import com.vikram.root.multipleimageselector.Models.ImageModel;
 import com.vikram.root.multipleimageselector.PhotoUploadActivty;
 import com.vikram.root.multipleimageselector.R;
+import com.vikram.root.multipleimageselector.Utils.ImageUtils;
 
 
 import java.util.ArrayList;
 
-public class AlbumContentsFragment extends Fragment implements PhotoUploadActivty.BackPressedCallback,LoaderManager.LoaderCallbacks<Cursor>{
+public class AlbumContentsFragment extends Fragment implements PhotoUploadActivty.BackPressedCallback, LoaderManager.LoaderCallbacks<Cursor> {
 
-    final String[] projection = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_ID };
+    final String[] projection = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_ID};
     final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
-    final String selection = MediaStore.Images.Media.BUCKET_ID+"=?";
-
-
+    final String selection = MediaStore.Images.Media.BUCKET_ID + "=?";
 
 
     private int count;
@@ -41,26 +42,11 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     private String[] mBucketId;
 
     private ArrayList<ImageModel> mSelectedImagesArray;
-/*
-    private HashMap<String,String> mSelectedImages;
-*/
+
     private ImageCursorAdapter mImageCursorAdater;
     private View mToolbar;
     private TextView mToolbarHeading;
     private TextView mOkButton;
-    /*private TextView mMultiSelectedButton;*/
-
-    public boolean isSingleSelected() {
-        return singleSelected;
-    }
-
-    public void setIsSingleSelected(boolean isSingleSelected) {
-        this.singleSelected = isSingleSelected;
-    }
-
-    private boolean singleSelected;
-
-
 
 
     public static AlbumContentsFragment newInstance(String bucketId) {
@@ -72,8 +58,8 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     }
 
 
-    public void setSelectedImages(ArrayList<ImageModel> selectedImages){
-        mSelectedImagesArray =selectedImages;
+    public void setSelectedImages(ArrayList<ImageModel> selectedImages) {
+        mSelectedImagesArray = selectedImages;
     }
 
     @Override
@@ -87,7 +73,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         mBucketId = new String[1];
         mBucketId[0] = getArguments().getString("bucketId");
 
-        getLoaderManager().initLoader(0,null,this);
+        getLoaderManager().initLoader(0, null, this);
 
     }
 
@@ -110,28 +96,26 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     @Override
     public void onResume() {
 
-        Log.d("@vikram","Fragment Resumed");
+        Log.d("@vikram", "Fragment Resumed");
 
-        if(mSelectedImagesArray !=null && mSelectedImagesArray.size() !=0 && mImageCursorAdater.getMultipleSelectionMode()){
+        if (mSelectedImagesArray != null && mSelectedImagesArray.size() != 0) {
             /*mToolbar.setBackgroundColor(getResources().getColor(R.color.photoSelected));*/
             mToolbarHeading.setText(mSelectedImagesArray.size() + " Selected");
             mOkButton.setVisibility(View.VISIBLE);
             /*mToolbar.findViewById(R.id.multiselect_on).setVisibility(View.GONE);*/
         } else {
-            if(mSelectedImagesArray!=null && !mImageCursorAdater.getMultipleSelectionMode()){
+            if (mSelectedImagesArray != null) {
                 mSelectedImagesArray.clear();
             }
             /*mToolbar.setBackgroundColor(getResources().getColor(R.color.normalToolbarColor));*/
             mToolbarHeading.setText("Gallery");
             mOkButton.setVisibility(View.GONE);
-            mImageCursorAdater.setMultipleSelectionMode(false);
-            count=0;
+            count = 0;
             /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
         }
 
         super.onResume();
     }
-
 
 
     @Override
@@ -149,86 +133,83 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         mToolbarHeading = (TextView) mToolbar.findViewById(R.id.title);
         mOkButton = (TextView) mToolbar.findViewById(R.id.toolbar_ok);
         /*mMultiSelectedButton = (TextView)mToolbar.findViewById(R.id.multiselect_on);*/
-        setIsSingleSelected(false);
 
 
-        if (mBucketId[0] != null ) {
+        if (mBucketId[0] != null) {
             if (null != mSelectedImagesArray && mSelectedImagesArray.size() != 0) {
-                mImageCursorAdater.setMultipleSelectionMode(true);
                 count = mSelectedImagesArray.size();
                 /*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*/
                 mToolbarHeading.setText(count + " Selected");
                 mOkButton.setVisibility(View.VISIBLE);
                 /*mMultiSelectedButton.setVisibility(View.GONE);*/
-            } else {
-                /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
             }
         }
 
 
-        mImagesGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*mImagesGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (!mImageCursorAdater.getMultipleSelectionMode() || count==0) {
-                    mImageCursorAdater.setMultipleSelectionMode(true);
-                    /*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*/
-                    mToolbarHeading.setText(++count + " Selected");
-                    RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
-                    selectionMask.setVisibility(View.VISIBLE);
-                    mOkButton.setVisibility(View.VISIBLE);
-                    /*mMultiSelectedButton.setVisibility(View.GONE);*/
-                    Cursor mTempCursor= mImageCursorAdater.getCursor();
+                if (!mImageCursorAdater.getMultipleSelectionMode() || count == 0) {
+                    Cursor mTempCursor = mImageCursorAdater.getCursor();
                     mTempCursor.moveToPosition(position);
-                    mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)),mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
+                    if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
+                        mImageCursorAdater.setMultipleSelectionMode(true);
+                    *//*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*//*
+                        mToolbarHeading.setText(++count + " Selected");
+                        RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
+                        selectionMask.setVisibility(View.VISIBLE);
+                        mOkButton.setVisibility(View.VISIBLE);
+                    *//*mMultiSelectedButton.setVisibility(View.GONE);*//*
+                        mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
+                    } else {
+                        Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_TYPE_NOT_SUPPORTED_ERROR, Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 }
                 return false;
             }
-        });
+        });*/
 
         mImagesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor mTempCursor = mImageCursorAdater.getCursor();
-                mTempCursor.moveToPosition(position);
-                if (mImageCursorAdater.getMultipleSelectionMode()) {
-                    RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
-
-                    boolean isNowSelected = false;
-                    if (mSelectedImagesArray != null) {
-                        isNowSelected =  !ImageModel.containsId(mSelectedImagesArray,mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
-                    }
-
-                    selectionMask.setVisibility(isNowSelected ? View.VISIBLE : View.GONE);
-                    if (isNowSelected) {
-                        if(count==0){
-                            mOkButton.setVisibility(View.VISIBLE);
-                            /*mMultiSelectedButton.setVisibility(View.GONE);*/
+                if (count <6) {
+                    Cursor mTempCursor = mImageCursorAdater.getCursor();
+                    mTempCursor.moveToPosition(position);
+                    if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
+                        RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
+                        boolean isNowSelected = false;
+                        if (mSelectedImagesArray != null) {
+                            isNowSelected = !ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
                         }
-                        mToolbarHeading.setText(++count + " Selected");
-                        mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
-                    } else {
-                        count--;
-                        if (mSelectedImagesArray != null && ImageModel.containsId(mSelectedImagesArray,mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID))));{
-                            ImageModel.removeObjectWithId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                        selectionMask.setVisibility(isNowSelected ? View.VISIBLE : View.GONE);
+                        if (isNowSelected) {
+                            if (count == 0) {
+                                mOkButton.setVisibility(View.VISIBLE);
+                        /*mMultiSelectedButton.setVisibility(View.GONE);*/
+                            }
+                            mToolbarHeading.setText(++count + " Selected");
+                            mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
+                        } else {
+                            count--;
+                            if (mSelectedImagesArray != null && ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)))) {
+                                ImageModel.removeObjectWithId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                            }
                         }
-                    }
-                    if (count == 0) {
-                        mImageCursorAdater.setMultipleSelectionMode(false);
-                        /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
-                        mToolbarHeading.setText("Gallery");
-                        mOkButton.setVisibility(View.GONE);
-                        /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
+                        if (count == 0) {
+                    /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
+                            mToolbarHeading.setText("Gallery");
+                            mOkButton.setVisibility(View.GONE);
+                    /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
+                        } else {
+                            mToolbarHeading.setText(count + " Selected");
+                        }
                     } else {
-                        mToolbarHeading.setText(count + " Selected");
+                        Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_TYPE_NOT_SUPPORTED_ERROR, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
-                    setIsSingleSelected(true);
-                    mOkButton.performClick();
-                    /*mMultiSelectedButton.setVisibility(View.GONE);*/
+                    Toast.makeText(AlbumContentsFragment.this.getActivity(),Constants.FILE_COUNT_LIMIT_REACHED,Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -252,24 +233,20 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
 
     @Override
     public ArrayList<ImageModel> backPressed() {
-        if(count ==0){
-           mImageCursorAdater.setMultipleSelectionMode(false);
-            /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
-        }
         return mSelectedImagesArray;
     }
 
-    @Override
+    /*@Override
     public void multiSelectOn() {
         mImageCursorAdater.setMultipleSelectionMode(true);
-        /*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*/
-        /*mMultiSelectedButton.setVisibility(View.GONE);*/
-    }
+        *//*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*//*
+        *//*mMultiSelectedButton.setVisibility(View.GONE);*//*
+    }*/
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("@vikram","Fragment Paused");
+        Log.d("@vikram", "Fragment Paused");
     }
 
     @Override
@@ -298,20 +275,20 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        Log.d("@vikram","Create loader called Contents");
-        return new CursorLoader(getActivity(),MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection,
+        Log.d("@vikram", "Create loader called Contents");
+        return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection,
                 mBucketId, orderBy + " DESC");
     }
 
     @Override
     public void onLoadFinished(Loader loader, Cursor data) {
-        Log.d("@vikram","Load finished called Contents");
+        Log.d("@vikram", "Load finished called Contents");
         mImageCursorAdater.changeCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
-        Log.d("@vikram","Loader reset called Contents");
+        Log.d("@vikram", "Loader reset called Contents");
         mImageCursorAdater.changeCursor(null);
     }
 }

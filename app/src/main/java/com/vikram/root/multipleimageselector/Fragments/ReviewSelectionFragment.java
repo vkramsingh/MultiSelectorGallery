@@ -41,7 +41,7 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
     /*private TextView mMultiSelectButton;*/
     private TextView mOkButton;
 
-    private TextView mDeleteButton;
+    private ImageView mDeleteButton;
 
     private LinearLayout mImageLayout;
 
@@ -80,7 +80,7 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
         mToolbar =  getActivity().findViewById(R.id.tool_bar);
         mToolbarHeading = (TextView) mToolbar.findViewById(R.id.title);
         mOkButton = (TextView) mToolbar.findViewById(R.id.toolbar_ok);
-        mDeleteButton = (TextView) mToolbar.findViewById(R.id.toolbar_delete);
+        mDeleteButton = (ImageView) mToolbar.findViewById(R.id.toolbar_delete);
         reviewSelectionPagerAdapter = new ReviewSelectionPagerAdapter(getActivity(),mSelectedImagesArray);
         mViewPager.setAdapter(reviewSelectionPagerAdapter);
         mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());

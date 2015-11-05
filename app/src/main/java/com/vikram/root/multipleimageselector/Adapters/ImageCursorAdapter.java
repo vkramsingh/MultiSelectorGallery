@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
+
 import android.widget.TextView;
 
 
@@ -25,7 +25,6 @@ import com.vikram.root.multipleimageselector.Models.ImageModel;
 import com.vikram.root.multipleimageselector.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ImageCursorAdapter extends CursorAdapter {
 
@@ -33,7 +32,6 @@ public class ImageCursorAdapter extends CursorAdapter {
     private Context mContext;
     private int mScreenWidth;
     private boolean isAlbum;
-    private boolean multipleSelectionMode;
 
 
 
@@ -50,7 +48,6 @@ public class ImageCursorAdapter extends CursorAdapter {
         super(context,c,0);
         mContext = context;
         this.isAlbum=isAlbum;
-        multipleSelectionMode =false;
         this.mSize = size;
         mSelectedImagesArray =selectedImages;
         setMemoryCache();
@@ -109,7 +106,7 @@ public class ImageCursorAdapter extends CursorAdapter {
 
         if(holder != null){
 
-            if (multipleSelectionMode && !isAlbum) {
+            if (!isAlbum) {
                 Boolean flag = ImageModel.containsId(mSelectedImagesArray,cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
                 if (!flag) {
                     holder.cbox.setVisibility(View.GONE);
@@ -139,13 +136,13 @@ public class ImageCursorAdapter extends CursorAdapter {
         TextView mCount;
     }
 
-    public boolean getMultipleSelectionMode() {
+    /*public boolean getMultipleSelectionMode() {
         return multipleSelectionMode;
     }
 
     public void setMultipleSelectionMode(boolean multipleSelectionMode) {
         this.multipleSelectionMode = multipleSelectionMode;
-    }
+    }*/
 
   /*  class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 

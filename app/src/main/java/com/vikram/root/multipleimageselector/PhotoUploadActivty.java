@@ -34,7 +34,7 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
     private String mLastBucketId;
     private View mToolbar;
     private TextView mOkButton;
-    private TextView mDeleteButton;
+    private ImageView mDeleteButton;
     private TextView mToolbarHeading;
 
 
@@ -53,7 +53,7 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
         mToolbar = findViewById(R.id.tool_bar);
         mOkButton = (TextView)mToolbar.findViewById(R.id.toolbar_ok);
         mToolbarHeading = (TextView)mToolbar.findViewById(R.id.title);
-        mDeleteButton = (TextView)mToolbar.findViewById(R.id.toolbar_delete);
+        mDeleteButton = (ImageView)mToolbar.findViewById(R.id.toolbar_delete);
         /*findViewById(R.id.multiselect_on).setOnClickListener(this);*/
         mOkButton.setOnClickListener(this);
         mSelectedImagesArray = new ArrayList<ImageModel>();
@@ -151,7 +151,9 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
 
     public interface BackPressedCallback{
         ArrayList<ImageModel> backPressed();
+/*
         void multiSelectOn();
+*/
     }
 
     private void setFragment(){

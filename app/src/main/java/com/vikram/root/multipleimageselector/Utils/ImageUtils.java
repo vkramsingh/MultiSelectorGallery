@@ -8,6 +8,9 @@ import android.graphics.BitmapFactory;
  */
 public class ImageUtils {
 
+
+    public final static int MAX_IMAGE_COUNT_LIMIT = 6;
+
     public static Bitmap decodeSampledBitmapFromFile(String imagePath,
                                                      int reqWidth, int reqHeight) {
 
@@ -45,5 +48,31 @@ public class ImageUtils {
         }
 
         return inSampleSize;
+    }
+
+    public static boolean CheckValidImage(String fileName) {
+        //  MyLog.v("CheckValidImage", fileName);
+        if (fileName != null) {
+            if (fileName.toLowerCase().endsWith("jpg")) {
+                return true;
+            }
+            if (fileName.toLowerCase().endsWith("jpeg")) {
+                return true;
+            } else if (fileName.toLowerCase().endsWith("png")) {
+                return true;
+            } else if (fileName.toLowerCase().endsWith("bmp")) {
+                return true;
+            } else if (fileName.toLowerCase().endsWith("gif")) {
+                return true;
+            } else if (fileName.toLowerCase().endsWith("pjpeg")) {
+                return true;
+            } else if (fileName.startsWith("http://")) {
+                return true;
+            } else if (fileName.startsWith("https://")) {
+                return true;
+            } else
+                return false;
+        } else
+            return false;
     }
 }

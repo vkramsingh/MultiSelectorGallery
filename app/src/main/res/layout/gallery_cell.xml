@@ -46,7 +46,7 @@
              android:id="@+id/tick"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:src="@drawable/white_tick"
+             android:src="@drawable/ic_white_tick"
              android:layout_centerInParent="true" />
     </RelativeLayout>
 </RelativeLayout>
