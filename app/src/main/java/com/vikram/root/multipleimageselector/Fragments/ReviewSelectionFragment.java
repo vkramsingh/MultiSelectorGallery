@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,7 +119,7 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
 
         mViewPager = (ViewPager)rootView.findViewById(R.id.imageAndTagPager);
 
-        mImageLayout=(LinearLayout)rootView.findViewById(R.id.mImageLayout);
+        mImageLayout=(LinearLayout)rootView.findViewById(R.id.imageLayout);
 
         if(mSelectedImagesArray !=null){
             String firstImage = mSelectedImagesArray.get(0).getPath();
@@ -172,9 +173,11 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.image_thumbnail_imageview:
-                mCurrentURL = (String)v.getTag();
+                mCurrentURL =(String)v.getTag() ;
+                Log.d("@vikram Review Select", "Position of view is : " + ((ViewGroup)v.getParent()).indexOfChild(v));
+                Log.d("@vikram Review Select", "Children count is "+mImageLayout.getChildCount());
                 /*mImageBig.setImageBitmap(ImageUtils.decodeSampledBitmapFromFile(mCurrentURL, mImageBig.getLayoutParams().width, mImageBig.getLayoutParams().height));*/
-                mViewPager.setCurrentItem((int)v.getTag(R.string.index));
+                mViewPager.setCurrentItem((int) v.getTag(R.string.index));
                 break;
             case R.id.image_thumbnail_add_photos:
                 getActivity().onBackPressed();
@@ -205,10 +208,19 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
                 mImageLayout.removeViewAt(mCurrentPosition);
                 reviewSelectionPagerAdapter.notifyDataSetChanged();
                 mViewPager.setAdapter(reviewSelectionPagerAdapter);
+                updateIndexTags(mCurrentPosition);
                 mCurrentPosition=newPosition;
                 mViewPager.setCurrentItem(mCurrentPosition);
-
                 break;
+        }
+    }
+
+    public void updateIndexTags(int position){
+        int childCount=mImageLayout.getChildCount();
+        for(int i=position;i<childCount-1;i++){
+            View thumbnailView = mImageLayout.getChildAt(i).findViewById(R.id.image_thumbnail_imageview);
+            int indexSaved=(int)thumbnailView.getTag(R.string.index);
+            thumbnailView.setTag(R.string.index,indexSaved-1);
         }
     }
 

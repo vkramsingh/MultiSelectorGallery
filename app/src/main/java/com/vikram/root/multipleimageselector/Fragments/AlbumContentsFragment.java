@@ -173,46 +173,47 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         mImagesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (count <6) {
-                    Cursor mTempCursor = mImageCursorAdater.getCursor();
-                    mTempCursor.moveToPosition(position);
-                    if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
-                        RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
-                        boolean isNowSelected = false;
-                        if (mSelectedImagesArray != null) {
-                            isNowSelected = !ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
-                        }
-                        selectionMask.setVisibility(isNowSelected ? View.VISIBLE : View.GONE);
-                        if (isNowSelected) {
+                Cursor mTempCursor = mImageCursorAdater.getCursor();
+                mTempCursor.moveToPosition(position);
+                if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
+                    RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
+                    boolean isNowSelected = false;
+                    if (mSelectedImagesArray != null) {
+                        isNowSelected = !ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                    }
+                    selectionMask.setVisibility(isNowSelected && count<6 ? View.VISIBLE : View.GONE);
+                    if (isNowSelected) {
+                        if(count <6){
                             if (count == 0) {
                                 mOkButton.setVisibility(View.VISIBLE);
                         /*mMultiSelectedButton.setVisibility(View.GONE);*/
                             }
                             mToolbarHeading.setText(++count + " Selected");
                             mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
-                        } else {
-                            count--;
-                            if (mSelectedImagesArray != null && ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)))) {
-                                ImageModel.removeObjectWithId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
-                            }
-                        }
-                        if (count == 0) {
-                    /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
-                            mToolbarHeading.setText("Gallery");
-                            mOkButton.setVisibility(View.GONE);
-                    /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
-                        } else {
-                            mToolbarHeading.setText(count + " Selected");
+                        }else {
+                            Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_COUNT_LIMIT_REACHED, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_TYPE_NOT_SUPPORTED_ERROR, Toast.LENGTH_SHORT).show();
+                        count--;
+                        if (mSelectedImagesArray != null && ImageModel.containsId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)))) {
+                            ImageModel.removeObjectWithId(mSelectedImagesArray, mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                        }
+                    }
+                    if (count == 0) {
+                    /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
+                        mToolbarHeading.setText("Gallery");
+                        mOkButton.setVisibility(View.GONE);
+                    /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
+                    } else {
+                        mToolbarHeading.setText(count + " Selected");
                     }
                 } else {
-                    Toast.makeText(AlbumContentsFragment.this.getActivity(),Constants.FILE_COUNT_LIMIT_REACHED,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_TYPE_NOT_SUPPORTED_ERROR, Toast.LENGTH_SHORT).show();
                 }
             }
-        });
-    }
+        }
+    );
+}
 
 
 
