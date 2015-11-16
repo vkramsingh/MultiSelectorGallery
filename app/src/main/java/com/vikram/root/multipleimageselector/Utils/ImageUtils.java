@@ -2,6 +2,12 @@ package com.vikram.root.multipleimageselector.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by vkramsingh on 29/10/15.
@@ -74,5 +80,12 @@ public class ImageUtils {
                 return false;
         } else
             return false;
+    }
+
+    public static File getImagepath() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String fname = "Image_" + timeStamp + ".jpeg";
+
+        return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), fname);
     }
 }

@@ -37,16 +37,20 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     final String selection = MediaStore.Images.Media.BUCKET_ID + "=?";
 
 
+    private final static String SELECTED_IMAGES_ARRAY_LIST ="selectedImages";
+
+
     private int count;
     private GridView mImagesGrid;
     private String[] mBucketId;
 
     private ArrayList<ImageModel> mSelectedImagesArray;
 
-    private ImageCursorAdapter mImageCursorAdater;
+    private ImageCursorAdapter mImageCursorAdapter;
     private View mToolbar;
     private TextView mToolbarHeading;
     private TextView mOkButton;
+    private TextView mAddFromCameraButton;
 
 
     public static AlbumContentsFragment newInstance(String bucketId) {
@@ -68,7 +72,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
 
         Log.d("@vikram", "On create called");
 
-        mImageCursorAdater = new ImageCursorAdapter(getActivity(), null, mSelectedImagesArray, null, false);
+        mImageCursorAdapter = new ImageCursorAdapter(getActivity(), null, mSelectedImagesArray, null, false);
 
         mBucketId = new String[1];
         mBucketId[0] = getArguments().getString("bucketId");
@@ -88,7 +92,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         View rootView = inflater.inflate(R.layout.gallery_layout, container, false);
         mImagesGrid = (GridView) rootView.findViewById(R.id.imageGrid);
 
-        mImagesGrid.setAdapter(mImageCursorAdater);
+        mImagesGrid.setAdapter(mImageCursorAdapter);
 
         return rootView;
     }
@@ -102,6 +106,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
             /*mToolbar.setBackgroundColor(getResources().getColor(R.color.photoSelected));*/
             mToolbarHeading.setText(mSelectedImagesArray.size() + " Selected");
             mOkButton.setVisibility(View.VISIBLE);
+            mAddFromCameraButton.setVisibility(View.GONE);
             /*mToolbar.findViewById(R.id.multiselect_on).setVisibility(View.GONE);*/
         } else {
             if (mSelectedImagesArray != null) {
@@ -110,6 +115,8 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
             /*mToolbar.setBackgroundColor(getResources().getColor(R.color.normalToolbarColor));*/
             mToolbarHeading.setText("Gallery");
             mOkButton.setVisibility(View.GONE);
+            mAddFromCameraButton.setVisibility(View.VISIBLE);
+
             count = 0;
             /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
         }
@@ -122,16 +129,20 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
-        mImageCursorAdater.setSize(size);
+        if(savedInstanceState !=null && savedInstanceState.getParcelableArrayList(SELECTED_IMAGES_ARRAY_LIST) !=null){
+            mSelectedImagesArray=savedInstanceState.getParcelableArrayList(SELECTED_IMAGES_ARRAY_LIST);
+        }
+
+        mImageCursorAdapter.setSize(size);
 
         mToolbar = getActivity().findViewById(R.id.tool_bar);
         mToolbarHeading = (TextView) mToolbar.findViewById(R.id.title);
         mOkButton = (TextView) mToolbar.findViewById(R.id.toolbar_ok);
+        mAddFromCameraButton = (TextView) mToolbar.findViewById(R.id.toolbar_camera);
         /*mMultiSelectedButton = (TextView)mToolbar.findViewById(R.id.multiselect_on);*/
 
 
@@ -149,11 +160,11 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         /*mImagesGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (!mImageCursorAdater.getMultipleSelectionMode() || count == 0) {
-                    Cursor mTempCursor = mImageCursorAdater.getCursor();
+                if (!mImageCursorAdapter.getMultipleSelectionMode() || count == 0) {
+                    Cursor mTempCursor = mImageCursorAdapter.getCursor();
                     mTempCursor.moveToPosition(position);
                     if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
-                        mImageCursorAdater.setMultipleSelectionMode(true);
+                        mImageCursorAdapter.setMultipleSelectionMode(true);
                     *//*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*//*
                         mToolbarHeading.setText(++count + " Selected");
                         RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
@@ -173,7 +184,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
         mImagesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor mTempCursor = mImageCursorAdater.getCursor();
+                Cursor mTempCursor = mImageCursorAdapter.getCursor();
                 mTempCursor.moveToPosition(position);
                 if (ImageUtils.CheckValidImage(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA)))) {
                     RelativeLayout selectionMask = (RelativeLayout) view.findViewById(R.id.chkBox);
@@ -186,6 +197,8 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
                         if(count <6){
                             if (count == 0) {
                                 mOkButton.setVisibility(View.VISIBLE);
+                                mAddFromCameraButton.setVisibility(View.GONE);
+
                         /*mMultiSelectedButton.setVisibility(View.GONE);*/
                             }
                             mToolbarHeading.setText(++count + " Selected");
@@ -203,6 +216,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
                     /*makeColorTransition(getResources().getColor(R.color.photoSelected), getResources().getColor(R.color.normalToolbarColor), mToolbar);*/
                         mToolbarHeading.setText("Gallery");
                         mOkButton.setVisibility(View.GONE);
+                        mAddFromCameraButton.setVisibility(View.VISIBLE);
                     /*mMultiSelectedButton.setVisibility(View.VISIBLE);*/
                     } else {
                         mToolbarHeading.setText(count + " Selected");
@@ -239,7 +253,7 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
 
     /*@Override
     public void multiSelectOn() {
-        mImageCursorAdater.setMultipleSelectionMode(true);
+        mImageCursorAdapter.setMultipleSelectionMode(true);
         *//*makeColorTransition(getResources().getColor(R.color.normalToolbarColor), getResources().getColor(R.color.photoSelected), mToolbar);*//*
         *//*mMultiSelectedButton.setVisibility(View.GONE);*//*
     }*/
@@ -284,12 +298,18 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
     @Override
     public void onLoadFinished(Loader loader, Cursor data) {
         Log.d("@vikram", "Load finished called Contents");
-        mImageCursorAdater.changeCursor(data);
+        mImageCursorAdapter.changeCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
         Log.d("@vikram", "Loader reset called Contents");
-        mImageCursorAdater.changeCursor(null);
+        mImageCursorAdapter.changeCursor(null);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(SELECTED_IMAGES_ARRAY_LIST,mSelectedImagesArray);
+        super.onSaveInstanceState(outState);
     }
 }
