@@ -2,9 +2,13 @@ package com.vikram.root.multipleimageselector.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,6 +20,20 @@ public class ImageUtils {
 
 
     public final static int MAX_IMAGE_COUNT_LIMIT = 6;
+
+
+    public static Bitmap decodeSampledBitmapFromFileWithOrientation(String imagePath,int reqWidth, int reqHeight,int orientation){
+        Bitmap scaledBitmap = decodeSampledBitmapFromFile(imagePath,reqWidth,reqHeight);
+        if(orientation !=0){
+            return rotateBitmap(scaledBitmap,orientation);
+        }
+        else{
+            return scaledBitmap;
+        }
+
+    }
+
+
 
     public static Bitmap decodeSampledBitmapFromFile(String imagePath,
                                                      int reqWidth, int reqHeight) {
@@ -87,5 +105,42 @@ public class ImageUtils {
         String fname = "Image_" + timeStamp + ".jpeg";
 
         return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), fname);
+    }
+
+
+
+    public static int getExifOrientation(String filepath) {
+        int degree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(filepath);
+        } catch (IOException ex) {
+            Log.e(ImageUtils.class.getSimpleName(), "EXIF orientation could not be obtained");
+        }
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+            if (orientation != -1) {
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = 270;
+                        break;
+                }
+
+            }
+        }
+        return degree;
+    }
+
+
+    public static Bitmap rotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.setRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

@@ -267,6 +267,8 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
             if (mNewImageFile != null) {
                 Log.d("@vikram file path",mNewImageFile.getPath());
                 Log.d("@vikram file uri",mNewImageUri.getPath());
+
+                getContentResolver().delete(mNewImageUri, null, null);
                 if (mNewImageFile.getAbsoluteFile().exists()) {
                     if (mNewImageFile.delete()) {
                     } else {
@@ -280,17 +282,16 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
             } else {
                 Log.e(getClass().getSimpleName(), "File object null");
             }
-
             return;
         } else {
             Log.d("@vikram Camera Rslt OK ", "Image photoId ");
             galleryAddPic();
             String photoId = mNewImageUri.getLastPathSegment();
             Log.d("@vikram id of clckd",photoId);
-            ImageModel clickedImage = new ImageModel(photoId,mNewImageFile.getPath());
+            Log.d("@vikram","orientation is : "+ImageUtils.getExifOrientation(mNewImageFile.getAbsolutePath()));
+            ImageModel clickedImage = new ImageModel(photoId,mNewImageFile.getPath(),ImageUtils.getExifOrientation(mNewImageFile.getAbsolutePath()));
             mSelectedImagesArray.add(clickedImage);
             findViewById(R.id.toolbar_ok).performClick();
-
         }
     }
 
@@ -328,11 +329,12 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState) {
 
+        Log.d("@vikram","On Save Instance State Called");
         outState.putString(LAST_BUCKET_ID_KEY, mLastBucketId);
         outState.putString(NEW_IMAGE_URI_KEY, mNewImageUri.toString());
-        super.onSaveInstanceState(outState, outPersistentState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -342,6 +344,7 @@ public class PhotoUploadActivty extends FragmentActivity implements AlbumFragmen
         Log.d("@vikram", "Photo upload on RestoreInstance");
         if (savedInstanceState != null) {
             Log.d("@vikram", "Photo upload on RestoreInstance, savedInstance is not Null");
+            Log.d("@vikram",savedInstanceState.toString());
             if (savedInstanceState.getString(LAST_BUCKET_ID_KEY) != null) {
                 mLastBucketId = savedInstanceState.getString(LAST_BUCKET_ID_KEY);
             }

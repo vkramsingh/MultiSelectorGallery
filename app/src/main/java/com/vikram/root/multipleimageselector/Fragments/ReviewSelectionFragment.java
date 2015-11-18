@@ -3,6 +3,8 @@ package com.vikram.root.multipleimageselector.Fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.vikram.root.multipleimageselector.Adapters.ReviewSelectionPagerAdapter;
 import com.vikram.root.multipleimageselector.Models.ImageModel;
 import com.vikram.root.multipleimageselector.PageTransformers.ZoomOutPageTransformer;
@@ -59,6 +62,8 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
 
 
 
+
+
     public ReviewSelectionFragment newInstance(){
         ReviewSelectionFragment f = new ReviewSelectionFragment();
         return f;
@@ -67,6 +72,9 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
 
     public void setSelectedImages(ArrayList<ImageModel> selectedImages){
         mSelectedImagesArray=selectedImages;
+/*
+        mSelectedImagesArray.add(new ImageModel("123","http://mediacdn.99acres.com/2302/5/46045075A-1447171103.jpeg",0));
+*/
     }
 
     @Override
@@ -130,8 +138,10 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
                 for(int i=0;i<mSelectedImagesArray.size();i++){
                     View mThumbnail = inflater.inflate(R.layout.image_thumbnail,null,false);
                     String mPhotoPath = mSelectedImagesArray.get(i).getPath();
+                    int orientationLocal= mSelectedImagesArray.get(i).getOrientation();
                     ImageView mImageView=(ImageView)mThumbnail.findViewById(R.id.image_thumbnail_imageview);
-                    mImageView.setImageBitmap(ImageUtils.decodeSampledBitmapFromFile(mPhotoPath, mImageView.getLayoutParams().width, mImageView.getLayoutParams().height));
+                    Glide.with(this).load(mPhotoPath).dontAnimate().into(mImageView);
+                    /*mImageView.setImageBitmap(ImageUtils.decodeSampledBitmapFromFile(mPhotoPath, mImageView.getLayoutParams().width, mImageView.getLayoutParams().height));*/
                     mImageLayout.addView(mThumbnail);
                     mImageView.setOnClickListener(this);
                     mImageView.setTag(mPhotoPath);
@@ -245,4 +255,5 @@ public class ReviewSelectionFragment extends Fragment implements View.OnClickLis
 
         return dialog;
     }
+
 }

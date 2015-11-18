@@ -202,7 +202,8 @@ public class AlbumContentsFragment extends Fragment implements PhotoUploadActivt
                         /*mMultiSelectedButton.setVisibility(View.GONE);*/
                             }
                             mToolbarHeading.setText(++count + " Selected");
-                            mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)), mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA))));
+                            String imageFilePath= mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                            mSelectedImagesArray.add(new ImageModel(mTempCursor.getString(mTempCursor.getColumnIndex(MediaStore.Images.Media._ID)),imageFilePath,ImageUtils.getExifOrientation(imageFilePath)));
                         }else {
                             Toast.makeText(AlbumContentsFragment.this.getActivity(), Constants.FILE_COUNT_LIMIT_REACHED, Toast.LENGTH_SHORT).show();
                         }

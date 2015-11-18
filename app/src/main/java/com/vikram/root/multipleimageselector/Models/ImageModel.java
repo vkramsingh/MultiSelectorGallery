@@ -14,13 +14,17 @@ public class ImageModel implements Parcelable {
     private String id;
     private String path;
 
+
+    private int orientation;
+
     /**
      * Standard basic constructor for non-parcel
      * object creation
      */
-    public ImageModel(String id, String path) {
+    public ImageModel(String id, String path,int orientation) {
         this.id = id;
         this.path = path;
+        this.orientation = orientation;
     }
 
     /**
@@ -36,6 +40,15 @@ public class ImageModel implements Parcelable {
     public String getId() {
         return id;
     }
+
+    public int getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
+    }
+
 
     public String getPath() {
         return path;
@@ -90,6 +103,7 @@ public class ImageModel implements Parcelable {
         // will come back in the same order
         dest.writeString(id);
         dest.writeString(path);
+        dest.writeInt(orientation);
     }
 
     /**
@@ -105,6 +119,7 @@ public class ImageModel implements Parcelable {
         // written to the parcel
         this.id = in.readString();
         this.path = in.readString();
+        this.orientation = in.readInt();
     }
 
 
