@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-8f8bcc4bd12549c71ae85457e9b5a05d92da94b0.jar" />
+    </item>
+    <item
         jar="/root/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.5.2/ecf534dba3a8446ce84cbb797d314763be212a68/glide-3.5.2.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -21,13 +28,6 @@
         revision="22.0.1"
         sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
         <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-3878b98a2a954d8ccfd0cc792113625d15c9b695.jar" />
-    </item>
-    <item
-        jar="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f8efd0096475e0daf054267b61544e10dc776503">
-        <dex dex="/home/vkramsingh/nnAcres/MultipleImageSelector/app/build/intermediates/pre-dexed/debug/classes-8f8bcc4bd12549c71ae85457e9b5a05d92da94b0.jar" />
     </item>
 
 </items>

@@ -15,13 +15,16 @@ public class ImageModel implements Parcelable {
     private String path;
 
 
+    private String tag;
+
+
     private int orientation;
 
     /**
      * Standard basic constructor for non-parcel
      * object creation
      */
-    public ImageModel(String id, String path,int orientation) {
+    public ImageModel(String id, String path, int orientation) {
         this.id = id;
         this.path = path;
         this.orientation = orientation;
@@ -49,6 +52,13 @@ public class ImageModel implements Parcelable {
         this.orientation = orientation;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getPath() {
         return path;

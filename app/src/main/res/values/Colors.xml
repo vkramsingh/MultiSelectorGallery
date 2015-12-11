@@ -7,6 +7,12 @@
     <color name="white">#FFFFFF</color>
     <color name="refine_divider">#cccccc</color>
     <color name="searchform_title_textcolor">#5e5e5e</color>
+    <color name="theme_red">#1473BB</color>
+    <color name="textBlack">#4B4B4B</color>
+    <color name="wallet_dim_foreground_inverse_holo_dark">#323232</color>
+    <color name="blue">#1473BB</color>
+    <color name="dark_blue">#333366</color>
+
 
 
 

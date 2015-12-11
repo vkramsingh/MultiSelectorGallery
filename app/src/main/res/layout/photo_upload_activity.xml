@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/nnacres_title_bar_with_back"
+        layout="@layout/title_bar_with_back"
         ></include>
     <FrameLayout
         android:layout_width="match_parent"

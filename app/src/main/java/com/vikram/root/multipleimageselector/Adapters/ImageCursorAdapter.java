@@ -8,21 +8,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.support.v4.util.LruCache;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import android.widget.TextView;
-
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.vikram.root.multipleimageselector.Models.ImageModel;
 import com.vikram.root.multipleimageselector.R;
+
 
 import java.util.ArrayList;
 
@@ -37,9 +35,9 @@ public class ImageCursorAdapter extends CursorAdapter {
 
     private Point mSize;
 
-/*
-    private LruCache<String, Bitmap> mMemoryCache;
-*/
+    /*
+        private LruCache<String, Bitmap> mMemoryCache;
+    */
     private LruCache<String, Bitmap> mBlurredMemoryCache;
 
 
@@ -67,9 +65,7 @@ public class ImageCursorAdapter extends CursorAdapter {
 
         final ViewHolder holder;
         View view = View.inflate(mContext, R.layout.gallery_cell, null);
-        Log.d("Adapter", "New View Called");
         if(view !=null){
-            Log.d("Adapter","Inside New View Called");
             holder = new ViewHolder();
 
 
@@ -94,8 +90,6 @@ public class ImageCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         ViewHolder holder = null;
-
-        Log.d("Adapter","Inside New View Called Bind");
 
 
         if(view !=null){
@@ -207,7 +201,7 @@ public class ImageCursorAdapter extends CursorAdapter {
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap,boolean isBlurred) {
         /*if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key,bitmap);
+            mMemoryCache.put(key,bitmap);b
         }*/
         if(isBlurred && getBlurredBitmapFromMemCache(key) == null){
             mBlurredMemoryCache.put(key,scaleDown(bitmap,100,false));

@@ -46,8 +46,8 @@
             android:id="@+id/imageLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical" ></LinearLayout>
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"></LinearLayout>
     </HorizontalScrollView>
 
     <LinearLayout
@@ -57,10 +57,12 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/horizontal_scroll"
         android:layout_weight="1"
+        android:background="@color/wallet_dim_foreground_inverse_holo_dark"
         android:gravity="center"
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/footer_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,6 +70,11 @@
             android:text="Cancel"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/footer_accept"

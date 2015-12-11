@@ -1,9 +1,14 @@
 package com.vikram.root.multipleimageselector.Utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -31,6 +36,40 @@ public class ImageUtils {
             return scaledBitmap;
         }
 
+    }
+
+    public static void galleryAddPic(File newImageFile,Context context) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        if (newImageFile != null) {
+            File f = new File(newImageFile.getPath());
+            if (f != null) {
+                Uri contentUri = Uri.fromFile(f);
+                mediaScanIntent.setData(contentUri);
+                context.sendBroadcast(mediaScanIntent);
+
+            }
+        }
+    }
+
+
+    public static void callBroadCastToUpdateLibrary(Context context) {
+        if (Build.VERSION.SDK_INT >= 14) {
+            Log.e("-->", " >= 14");
+            MediaScannerConnection.scanFile(context, new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                /*
+                 *   (non-Javadoc)
+                 * @see android.media.MediaScannerConnection.OnScanCompletedListener#onScanCompleted(java.lang.String, android.net.Uri)
+                 */
+                public void onScanCompleted(String path, Uri uri) {
+                    Log.e("ExternalStorage", "Scanned " + path + ":");
+                    Log.e("ExternalStorage", "-> uri=" + uri);
+                }
+            });
+        } else {
+            Log.e("-->", " < 14");
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+                    Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        }
     }
 
 
